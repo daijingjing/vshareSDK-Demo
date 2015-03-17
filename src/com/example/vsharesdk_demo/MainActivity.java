@@ -1,8 +1,12 @@
 package com.example.vsharesdk_demo;
 
 import com.bumptech.glide.Glide;
+import com.googlecode.javacv.FFmpegFrameGrabber;
+import com.googlecode.javacv.Frame;
+import com.googlecode.javacv.FrameGrabber.Exception;
 import com.temobi.sx.sdk.vshare.SDKInit;
 import com.temobi.sx.sdk.vshare.player.VideoPlayer;
+import com.temobi.sx.sdk.vshare.recorder.Recorder;
 
 import android.net.Uri;
 import android.os.Bundle;
@@ -10,6 +14,7 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
