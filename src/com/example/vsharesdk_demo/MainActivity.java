@@ -1,12 +1,12 @@
 package com.example.vsharesdk_demo;
 
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
-import com.googlecode.javacv.FFmpegFrameGrabber;
-import com.googlecode.javacv.Frame;
-import com.googlecode.javacv.FrameGrabber.Exception;
 import com.temobi.sx.sdk.vshare.SDKInit;
 import com.temobi.sx.sdk.vshare.player.VideoPlayer;
-import com.temobi.sx.sdk.vshare.recorder.Recorder;
+import com.temobi.sx.sdk.vshare.utils.PrefUtils;
+import com.temobi.sx.sdk.vshare.widget.VideoSupportView;
 
 import android.net.Uri;
 import android.os.Bundle;
@@ -31,11 +31,17 @@ public class MainActivity extends Activity {
 	private static final int source_id = 1;
 
 	ProgressDialog loginDlg = null;
+	RequestQueue requestQueue;
+	String userId = null;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		
+		requestQueue = Volley.newRequestQueue(this);
+
 		setContentView(R.layout.activity_main);
+		
 		
 		findViewById(R.id.login_btn).setOnClickListener(new View.OnClickListener() {
 			@Override
@@ -75,9 +81,13 @@ public class MainActivity extends Activity {
 			
 			@Override
 			public void onLoginSucceed(String userId) {
+				MainActivity.this.userId = userId;
 				findViewById(R.id.login).setVisibility(View.GONE);
 				findViewById(R.id.work).setVisibility(View.VISIBLE);
 				loginDlg.dismiss();
+				
+				Log.i("LOGIN", String.format("UserKey:%s", PrefUtils.getUserKey(MainActivity.this)));
+				Log.i("LOGIN", String.format("UserId:%s", PrefUtils.getUserId(MainActivity.this)));
 			}
 			
 			@Override
@@ -139,6 +149,13 @@ public class MainActivity extends Activity {
 				lp.addRule(RelativeLayout.CENTER_IN_PARENT);
 				player.addView(playBtn, lp);
 				
+				VideoSupportView videoSupport = new VideoSupportView(this, requestQueue);
+				((ViewGroup)findViewById(R.id.video_support)).addView(videoSupport, ViewGroup.LayoutParams.MATCH_PARENT, 
+						ViewGroup.LayoutParams.MATCH_PARENT);
+				
+				videoSupport.load(videoId, MainActivity.this.userId);
+
+				
 				break;
 			case RESULT_CANCELED:
 				Toast.makeText(MainActivity.this, "取消录制视频", Toast.LENGTH_LONG).show();
@@ -153,6 +170,7 @@ public class MainActivity extends Activity {
 		player.removeAllViews();
 		VideoPlayer v = new VideoPlayer(MainActivity.this, videoId, true);
 		player.addView(v, LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
+		
 	}
 
 }
