@@ -1,5 +1,7 @@
 package com.example.vsharesdk_demo;
 
+import org.apache.commons.lang.StringUtils;
+
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
@@ -64,9 +66,24 @@ public class MainActivity extends Activity {
 				startActivityForResult(intent, ACTIVITY_CODE_TO_RECORDER);
 			}
 		});
+		
+		findViewById(R.id.topic_video).setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View arg0) {
+				Intent intent = new Intent(MainActivity.this, TopicVideoActivity.class);
+				startActivity(intent);
+			}
+		});
 	}
 	
 	private synchronized void doLogin() {
+		
+		// 自动登录
+		String userId = PrefUtils.getUserId(this);
+		if (!StringUtils.isEmpty(userId)) {
+			MainActivity.this.onLoginSucceed(userId);
+			return;
+		}
 		
 		findViewById(R.id.login).setEnabled(false);
 		
@@ -81,13 +98,7 @@ public class MainActivity extends Activity {
 			
 			@Override
 			public void onLoginSucceed(String userId) {
-				MainActivity.this.userId = userId;
-				findViewById(R.id.login).setVisibility(View.GONE);
-				findViewById(R.id.work).setVisibility(View.VISIBLE);
-				loginDlg.dismiss();
-				
-				Log.i("LOGIN", String.format("UserKey:%s", PrefUtils.getUserKey(MainActivity.this)));
-				Log.i("LOGIN", String.format("UserId:%s", PrefUtils.getUserId(MainActivity.this)));
+				MainActivity.this.onLoginSucceed(userId);
 			}
 			
 			@Override
@@ -171,6 +182,16 @@ public class MainActivity extends Activity {
 		VideoPlayer v = new VideoPlayer(MainActivity.this, videoId, true);
 		player.addView(v, LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
 		
+	}
+
+	private void onLoginSucceed(String userId) {
+		MainActivity.this.userId = userId;
+		findViewById(R.id.login).setVisibility(View.GONE);
+		findViewById(R.id.work).setVisibility(View.VISIBLE);
+		loginDlg.dismiss();
+		
+		Log.i("LOGIN", String.format("UserKey:%s", PrefUtils.getUserKey(MainActivity.this)));
+		Log.i("LOGIN", String.format("UserId:%s", PrefUtils.getUserId(MainActivity.this)));
 	}
 
 }
