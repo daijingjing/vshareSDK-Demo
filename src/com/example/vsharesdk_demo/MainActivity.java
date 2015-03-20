@@ -70,7 +70,7 @@ public class MainActivity extends Activity {
 		findViewById(R.id.topic_video).setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
-				Intent intent = new Intent(MainActivity.this, TopicVideoActivity.class);
+				Intent intent = new Intent(MainActivity.this, VideoListActivity.class);
 				startActivity(intent);
 			}
 		});
@@ -78,18 +78,19 @@ public class MainActivity extends Activity {
 	
 	private synchronized void doLogin() {
 		
-		// 自动登录
-		String userId = PrefUtils.getUserId(this);
-		if (!StringUtils.isEmpty(userId)) {
-			MainActivity.this.onLoginSucceed(userId);
-			return;
-		}
-		
 		findViewById(R.id.login).setEnabled(false);
 		
 		EditText edt_mobile = (EditText)findViewById(R.id.login_mobile);
 		EditText edt_code = (EditText)findViewById(R.id.login_code);
+
+		// 自动登录
+		String savedUserId = PrefUtils.getUserId(this);
+		if (edt_mobile.getText().length() == 0 && !StringUtils.isEmpty(savedUserId)) {
+			MainActivity.this.onLoginSucceed(savedUserId);
+			return;
+		}
 		
+
 		loginDlg = new ProgressDialog(this, ProgressDialog.THEME_HOLO_LIGHT);
 		loginDlg.setMessage("正在启动...");
 		loginDlg.show();
@@ -188,7 +189,8 @@ public class MainActivity extends Activity {
 		MainActivity.this.userId = userId;
 		findViewById(R.id.login).setVisibility(View.GONE);
 		findViewById(R.id.work).setVisibility(View.VISIBLE);
-		loginDlg.dismiss();
+		if (loginDlg != null)
+			loginDlg.dismiss();
 		
 		Log.i("LOGIN", String.format("UserKey:%s", PrefUtils.getUserKey(MainActivity.this)));
 		Log.i("LOGIN", String.format("UserId:%s", PrefUtils.getUserId(MainActivity.this)));

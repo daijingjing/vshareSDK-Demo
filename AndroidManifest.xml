@@ -71,6 +71,7 @@
     <uses-permission android:name="android.permission.AUTHENTICATE_ACCOUNTS" />
 
     <application
+        android:name="com.example.vsharesdk_demo.MyApplication"
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
@@ -99,8 +100,14 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.example.vsharesdk_demo.TopicVideoActivity"
-            android:label="@string/title_activity_topic_video" >
+            android:name="com.example.vsharesdk_demo.VideoListActivity"
+            android:label="@string/title_activity_topic_video"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="com.example.vsharesdk_demo.VideoPlayActivity"
+            android:label="@string/title_activity_video_play"
+            android:screenOrientation="portrait" >
         </activity>
     </application>
 
