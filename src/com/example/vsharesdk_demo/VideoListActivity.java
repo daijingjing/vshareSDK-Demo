@@ -38,7 +38,7 @@ public class VideoListActivity extends Activity {
 				startActivity(intent);
 			}
 		};
-		listview.load(null);
+		listview.load(null);//<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 		
 		addContentView(listview, new LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.MATCH_PARENT));
 	}
@@ -54,7 +54,7 @@ public class VideoListActivity extends Activity {
 	public boolean onMenuItemSelected(int featureId, MenuItem item) {
 		
 		if (item.getItemId() == R.id.action_reload)
-			listview.load(null);
+			listview.load(null);//<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 		
 		return super.onMenuItemSelected(featureId, item);
 	}

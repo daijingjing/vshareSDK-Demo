@@ -12,6 +12,7 @@ import android.view.Window;
 public class VideoPlayActivity extends Activity {
 
 	String videoId = null;
+	VideoPlayer player;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -34,13 +35,14 @@ public class VideoPlayActivity extends Activity {
 		ViewGroup parent = (ViewGroup)findViewById(R.id.parent);
 		parent.removeAllViews();
 		
-		VideoPlayer player = new VideoPlayer(this, videoId, true);
+		player = new VideoPlayer(this, videoId, true);
 		parent.addView(player, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
 	}
 	
 	@Override
 	public void onBackPressed() {
 		super.onBackPressed();
+		player.release();
 		finish();
 	}
 }
