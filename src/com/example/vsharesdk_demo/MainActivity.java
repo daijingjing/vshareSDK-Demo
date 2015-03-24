@@ -109,6 +109,14 @@ public class MainActivity extends Activity {
 				loginDlg.dismiss();
 				Toast.makeText(MainActivity.this, "启动失败，请检查网络设置后重试", Toast.LENGTH_LONG).show();
 			}
+
+			@Override
+			public void onSessionInvalid() {
+			}
+
+			@Override
+			public void onSessionValid(String arg0) {
+			}
 		});
 	}
 

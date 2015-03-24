@@ -16,7 +16,7 @@ public class VideoListActivity extends Activity {
 
 	RequestQueue requestQueue;
 	VideoListView listview;
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -24,23 +24,22 @@ public class VideoListActivity extends Activity {
 		requestQueue = Volley.newRequestQueue(this);
 
 		listview = new VideoListView(this, requestQueue) {
-			
 			@Override
 			protected void onPlayVideo(String videoId) {
 				Intent intent = new Intent(VideoListActivity.this, VideoPlayActivity.class);
 				intent.putExtra("VideoId", videoId);
 				VideoListActivity.this.startActivity(intent);
 			}
-			
+
 			@Override
 			protected void onShareVideo(String videoId, String posterUrl, String shortUrl) {
 				Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(shortUrl));
 				startActivity(intent);
 			}
 		};
-		listview.load(null);//<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-		
-		addContentView(listview, new LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.MATCH_PARENT));
+		listview.load(null);// <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+		addContentView(listview, new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
 	}
 
 	@Override
@@ -52,10 +51,11 @@ public class VideoListActivity extends Activity {
 
 	@Override
 	public boolean onMenuItemSelected(int featureId, MenuItem item) {
-		
-		if (item.getItemId() == R.id.action_reload)
-			listview.load(null);//<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-		
+
+		if (item.getItemId() == R.id.action_reload) {
+			listview.load(null);// <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+		}
+
 		return super.onMenuItemSelected(featureId, item);
 	}
 }
