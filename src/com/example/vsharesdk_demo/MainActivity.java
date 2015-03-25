@@ -7,6 +7,7 @@ import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
 import com.temobi.sx.sdk.vshare.SDKInit;
 import com.temobi.sx.sdk.vshare.player.VideoPlayer;
+import com.temobi.sx.sdk.vshare.recorder.RecorderActivity;
 import com.temobi.sx.sdk.vshare.utils.PrefUtils;
 import com.temobi.sx.sdk.vshare.widget.VideoSupportView;
 
