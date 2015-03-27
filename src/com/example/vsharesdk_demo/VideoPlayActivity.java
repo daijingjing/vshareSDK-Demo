@@ -13,36 +13,41 @@ public class VideoPlayActivity extends Activity {
 
 	String videoId = null;
 	VideoPlayer player;
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_video_play);
-		
+
 		videoId = getIntent().getStringExtra("VideoId");
 		createVideoPlayer();
 	}
-	
+
 	@Override
 	protected void onNewIntent(Intent intent) {
 		super.onNewIntent(intent);
 		videoId = intent.getStringExtra("VideoId");
 		createVideoPlayer();
 	}
-	
+
 	private void createVideoPlayer() {
-		ViewGroup parent = (ViewGroup)findViewById(R.id.parent);
+		ViewGroup parent = (ViewGroup) findViewById(R.id.parent);
 		parent.removeAllViews();
-		
+
 		player = new VideoPlayer(this, videoId, true);
 		parent.addView(player, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
 	}
-	
+
 	@Override
 	public void onBackPressed() {
 		super.onBackPressed();
-		player.release();
 		finish();
+	}
+
+	@Override
+	protected void onDestroy() {
+		player.release();
+		super.onDestroy();
 	}
 }
