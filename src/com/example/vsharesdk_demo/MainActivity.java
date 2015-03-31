@@ -1,13 +1,10 @@
 package com.example.vsharesdk_demo;
 
-import org.apache.commons.lang.StringUtils;
-
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
-import com.temobi.sx.sdk.vshare.SDKInit;
+import com.temobi.sx.sdk.vshare.SDK;
 import com.temobi.sx.sdk.vshare.player.VideoPlayer;
-import com.temobi.sx.sdk.vshare.recorder.RecorderActivity;
 import com.temobi.sx.sdk.vshare.utils.PrefUtils;
 import com.temobi.sx.sdk.vshare.widget.VideoSupportView;
 
@@ -18,7 +15,6 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.util.Log;
-import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
@@ -36,6 +32,7 @@ public class MainActivity extends Activity {
 	ProgressDialog loginDlg = null;
 	RequestQueue requestQueue;
 	String userId = null;
+	SDK sdkInstance = null;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -63,12 +60,13 @@ public class MainActivity extends Activity {
 				intent.putExtra("locAddr", "山西省太原市");
 				intent.putExtra("locLon", locLon); // double 类型
 				intent.putExtra("locLat", locLat); // double 类型
-//				intent.putExtra("TopicId", "test"); //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 主题ID
+				//intent.putExtra("TopicId", "test"); //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 主题ID
 				
 				startActivityForResult(intent, ACTIVITY_CODE_TO_RECORDER);
 			}
 		});
 		
+		// 打开视频列表
 		findViewById(R.id.topic_video).setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
@@ -76,6 +74,35 @@ public class MainActivity extends Activity {
 				startActivity(intent);
 			}
 		});
+		
+		
+		findViewById(R.id.login).setEnabled(false);
+
+		
+		// 初始化SDK
+		int channelId = 1;
+		String appId = "23acb0958bcc4caa91ab26cd40e2a07e";
+		String appPassword = "4603815334994e9da07c030bc34b7423";
+		sdkInstance = new SDK(MainActivity.this, appId, appPassword, channelId) {
+			@Override
+			protected void onInvalidAppId() {
+				Toast.makeText(MainActivity.this, "APPID无效", Toast.LENGTH_LONG).show();
+			}
+			@Override
+			protected void onInvalidSession() {
+				// 通过第三方验证接口获取验证码
+				Toast.makeText(MainActivity.this, "会话无效，请登录", Toast.LENGTH_LONG).show();
+				findViewById(R.id.login).setEnabled(true);
+			}
+			@Override
+			protected void onSucceeded(String userId) {
+				MainActivity.this.onLoginSucceed(userId);
+			}
+			@Override
+			protected void onFaild() {
+				Toast.makeText(MainActivity.this, "启动失败！", Toast.LENGTH_LONG).show();
+			}
+		};
 	}
 	
 	private synchronized void doLogin() {
@@ -85,47 +112,7 @@ public class MainActivity extends Activity {
 		EditText edt_mobile = (EditText)findViewById(R.id.login_mobile);
 		EditText edt_code = (EditText)findViewById(R.id.login_code);
 
-		// 自动登录
-		String savedUserId = PrefUtils.getUserId(this);
-		if (edt_mobile.getText().length() == 0 && !StringUtils.isEmpty(savedUserId)) {
-			MainActivity.this.onLoginSucceed(savedUserId);
-			return;
-		}
-		
-
-		loginDlg = new ProgressDialog(this, ProgressDialog.THEME_HOLO_LIGHT);
-		loginDlg.setMessage("正在启动...");
-		loginDlg.show();
-		
-		SDKInit.login(getApplication(), edt_mobile.getText().toString(), edt_code.getText().toString(), source_id, new SDKInit.SDKInitCallback() {
-			
-			@Override
-			public void onLoginSucceed(String userId) {
-				MainActivity.this.onLoginSucceed(userId);
-			}
-			
-			@Override
-			public void onLoginError() {
-				findViewById(R.id.login).setEnabled(true);
-				loginDlg.dismiss();
-				Toast.makeText(MainActivity.this, "启动失败，请检查网络设置后重试", Toast.LENGTH_LONG).show();
-			}
-
-			@Override
-			public void onSessionInvalid() {
-			}
-
-			@Override
-			public void onSessionValid(String arg0) {
-			}
-		});
-	}
-
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.main, menu);
-		return true;
+		sdkInstance.login(edt_mobile.getText().toString(), edt_code.getText().toString());
 	}
 
 	@Override
@@ -141,7 +128,6 @@ public class MainActivity extends Activity {
 				
 				((TextView)findViewById(R.id.shortUrl)).setText(shareUrl);
 				findViewById(R.id.shortUrl).setOnClickListener(new View.OnClickListener() {
-					
 					@Override
 					public void onClick(View arg0) {
 						Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(((TextView)arg0).getText().toString()));
@@ -192,7 +178,6 @@ public class MainActivity extends Activity {
 		player.removeAllViews();
 		VideoPlayer v = new VideoPlayer(MainActivity.this, videoId, true);
 		player.addView(v, LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
-		
 	}
 
 	private void onLoginSucceed(String userId) {
