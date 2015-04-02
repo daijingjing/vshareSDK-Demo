@@ -2,7 +2,9 @@ package com.example.vsharesdk_demo;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
+import com.temobi.sx.sdk.vshare.activity.UserPortalActivity;
 import com.temobi.sx.sdk.vshare.activity.VideoPlayActivity;
+import com.temobi.sx.sdk.vshare.utils.PrefUtils;
 import com.temobi.sx.sdk.vshare.widget.VideoListView;
 
 import android.net.Uri;
@@ -41,26 +43,26 @@ public class VideoListActivity extends Activity {
 			
 			@Override
 			protected void onClickMyAvatar() {
-				Toast.makeText(getContext(), "onClickMyAvatar", Toast.LENGTH_SHORT).show();
-				super.onClickMyAvatar();
+				Toast.makeText(getApplicationContext(), "onClickMyAvatar", Toast.LENGTH_SHORT).show();
+				UserPortalActivity.start(getContext(), PrefUtils.getUserId(getContext()));
 			}
 
 			@Override
 			protected void onClickAvatar(String userId) {
-				Toast.makeText(getContext(), "onClickAvatar", Toast.LENGTH_SHORT).show();
-				super.onClickAvatar(userId);
+				Toast.makeText(getApplicationContext(), "onClickAvatar", Toast.LENGTH_SHORT).show();
+				UserPortalActivity.start(getContext(), userId);
 			}
 			
 			@Override
 			protected void onClickCommentUserAvatar(String userId) {
-				Toast.makeText(getContext(), "onClickCommentUserAvatar", Toast.LENGTH_SHORT).show();
-				super.onClickCommentUserAvatar(userId);
+				Toast.makeText(getApplicationContext(), "onClickCommentUserAvatar", Toast.LENGTH_SHORT).show();
+				UserPortalActivity.start(getContext(), userId);
 			}
 
 			@Override
 			protected void onClickSupportUserAvatar(String userId) {
-				Toast.makeText(getContext(), "onClickSupportUserAvatar", Toast.LENGTH_SHORT).show();
-				super.onClickSupportUserAvatar(userId);
+				Toast.makeText(getApplicationContext(), "onClickSupportUserAvatar", Toast.LENGTH_SHORT).show();
+				UserPortalActivity.start(getContext(), userId);
 			}
 		};
 		//listview.load("20150401");// <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
