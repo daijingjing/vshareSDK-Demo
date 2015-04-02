@@ -44,7 +44,7 @@ public class VideoListActivity extends Activity {
 			@Override
 			protected void onClickMyAvatar() {
 				Toast.makeText(getApplicationContext(), "onClickMyAvatar", Toast.LENGTH_SHORT).show();
-				UserPortalActivity.start(getContext(), PrefUtils.getUserId(getContext()));
+				UserPortalActivity.start(getContext(), null);
 			}
 
 			@Override
