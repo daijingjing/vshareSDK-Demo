@@ -105,7 +105,7 @@
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name="com.example.vsharesdk_demo.VideoPlayActivity"
+            android:name="com.temobi.sx.sdk.vshare.activity.VideoPlayActivity"
             android:label="@string/title_activity_video_play"
             android:screenOrientation="portrait" >
         </activity>

@@ -2,6 +2,7 @@ package com.example.vsharesdk_demo;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
+import com.temobi.sx.sdk.vshare.activity.VideoPlayActivity;
 import com.temobi.sx.sdk.vshare.widget.VideoListView;
 
 import android.net.Uri;
@@ -11,6 +12,7 @@ import android.content.Intent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.RelativeLayout.LayoutParams;
+import android.widget.Toast;
 
 public class VideoListActivity extends Activity {
 
@@ -36,8 +38,32 @@ public class VideoListActivity extends Activity {
 				Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(shortUrl));
 				startActivity(intent);
 			}
+			
+			@Override
+			protected void onClickMyAvatar() {
+				Toast.makeText(getContext(), "onClickMyAvatar", Toast.LENGTH_SHORT).show();
+				super.onClickMyAvatar();
+			}
+
+			@Override
+			protected void onClickAvatar(String userId) {
+				Toast.makeText(getContext(), "onClickAvatar", Toast.LENGTH_SHORT).show();
+				super.onClickAvatar(userId);
+			}
+			
+			@Override
+			protected void onClickCommentUserAvatar(String userId) {
+				Toast.makeText(getContext(), "onClickCommentUserAvatar", Toast.LENGTH_SHORT).show();
+				super.onClickCommentUserAvatar(userId);
+			}
+
+			@Override
+			protected void onClickSupportUserAvatar(String userId) {
+				Toast.makeText(getContext(), "onClickSupportUserAvatar", Toast.LENGTH_SHORT).show();
+				super.onClickSupportUserAvatar(userId);
+			}
 		};
-		listview.load(null);// <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+		listview.load("20150401");// <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 		addContentView(listview, new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
 	}

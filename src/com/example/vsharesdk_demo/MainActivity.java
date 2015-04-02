@@ -60,7 +60,7 @@ public class MainActivity extends Activity {
 				intent.putExtra("locAddr", "山西省太原市");
 				intent.putExtra("locLon", locLon); // double 类型
 				intent.putExtra("locLat", locLat); // double 类型
-				//intent.putExtra("TopicId", "test"); //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 主题ID
+				intent.putExtra("TopicId", "20150401"); //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 主题ID
 				
 				startActivityForResult(intent, ACTIVITY_CODE_TO_RECORDER);
 			}
