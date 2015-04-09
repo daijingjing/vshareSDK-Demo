@@ -65,7 +65,7 @@ public class VideoListActivity extends Activity {
 				UserPortalActivity.start(getContext(), userId);
 			}
 		};
-		//listview.load("20150401");// <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+//		listview.load("20150401");// <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 		listview.load(null);
 		
 		addContentView(listview, new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));

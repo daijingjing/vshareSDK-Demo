@@ -80,9 +80,11 @@ public class MainActivity extends Activity {
 
 		
 		// 初始化SDK
-		int channelId = 1;
-		String appId = "6d71aa11ff0c4f42bc19274da84efea0";
-		String appPassword = "03fc5eda57b14a3faa9db1040120492e";
+		// 测试用APPID
+		int channelId = 50000;
+		String appId = "d05a9b1c41d44bae8c69c45c29deb1a9"; 
+		String appPassword = "7d3857a563b64ec5b47443ca5215fc62";
+		
 		sdkInstance = new SDK(MainActivity.this, appId, appPassword, channelId) {
 			@Override
 			protected void onInvalidAppId() {
