@@ -101,6 +101,18 @@
                 android:paddingTop="10dp"
                 android:text="录制视频" />
             
+            <Button
+                android:id="@+id/search"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="8dp"
+                android:paddingBottom="10dp"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:paddingTop="10dp"
+                android:text="查找用户" />
+            
             
             <Button
                 android:id="@+id/topic_video"

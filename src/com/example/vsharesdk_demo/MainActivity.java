@@ -4,8 +4,11 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
 import com.temobi.sx.sdk.vshare.SDK;
+import com.temobi.sx.sdk.vshare.activity.UserPortalActivity;
 import com.temobi.sx.sdk.vshare.player.VideoPlayer;
 import com.temobi.sx.sdk.vshare.utils.PrefUtils;
+import com.temobi.sx.sdk.vshare.widget.InputDialog;
+import com.temobi.sx.sdk.vshare.widget.UserFind;
 import com.temobi.sx.sdk.vshare.widget.VideoSupportView;
 
 import android.net.Uri;
@@ -49,6 +52,13 @@ public class MainActivity extends Activity {
 				doLogin();
 			}
 		});
+		
+		findViewById(R.id.search).setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View arg0) {
+				doUserFind();
+			}
+		});
 
 		findViewById(R.id.recorder).setOnClickListener(new View.OnClickListener() {
 			@Override
@@ -79,9 +89,11 @@ public class MainActivity extends Activity {
 		findViewById(R.id.login).setEnabled(false);
 
 		
+		
 		// 初始化SDK
 		// 测试用APPID
-		int channelId = 50000;
+		Toast.makeText(this, "请更换SDK配置信息(MainActivity:95)", Toast.LENGTH_SHORT).show();
+		int channelId = 1;
 		String appId = "d05a9b1c41d44bae8c69c45c29deb1a9"; 
 		String appPassword = "7d3857a563b64ec5b47443ca5215fc62";
 		
@@ -105,6 +117,23 @@ public class MainActivity extends Activity {
 				Toast.makeText(MainActivity.this, "启动失败！", Toast.LENGTH_LONG).show();
 			}
 		};
+	}
+	
+	private void doUserFind() {
+		new InputDialog(this){
+			protected void onPermission() {
+				new UserFind(MainActivity.this, requestQueue, getText()) {
+					protected void onFound(String userId) {
+						UserPortalActivity.start(getContext(), userId);
+					};
+				}.find();
+			};
+		}
+		.setSingleLine(true)
+		.setTitle("查找用户")
+		.setHint("用户手机号")
+		.setEms(20)
+		.show();
 	}
 	
 	private synchronized void doLogin() {
